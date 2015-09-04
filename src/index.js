@@ -18,7 +18,7 @@ exports.validator = function (sigHash, mdagStore) {
   var recHash = sigObjExpanded.signee[ipld.type.mlink]
   var recObj = mdagStore.get(recHash)
 
-  console.log('sig', sigHash, sigObj)
+  console.log('sig', sigHash, sigObj, sigObjExpanded)
   console.log('rec', recHash, recObj)
 
   return true

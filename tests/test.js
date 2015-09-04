@@ -80,8 +80,6 @@ test('create a valid and non expired type \'a\' record', function (done) {
     bytes: record_signed
   }
 
-  console.log('THE RECORD MH', mdagObj_record_mh)
-
   var mdagObj_record_signature_encoded = ipld.marshal(mdagObj_record_signature)
   var mdagObj_record_signature_encoded_hash = multihashing(mdagObj_record_signature_encoded, 'sha2-256')
 
