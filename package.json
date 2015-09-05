@@ -1,6 +1,6 @@
 {
   "name": "ipfs-record",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Node.js IPFS Record implementation",
   "main": "src/index.js",
   "scripts": {
