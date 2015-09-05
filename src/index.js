@@ -1,4 +1,6 @@
 var ipld = require('ipld')
+var ecdsa = require('ecdsa')
+var crypto = require('crypto')
 
 exports = module.exports
 
@@ -17,12 +19,22 @@ exports.validator = function (sigHash, mdagStore) {
   var sigObjExpanded = ipld.expand(sigObj)
   var recHash = sigObjExpanded.signee[ipld.type.mlink]
   var recObj = mdagStore.get(recHash)
+  var pubKeyHash = sigObjExpanded.pubKey[ipld.type.mlink]
+  var pubKeyObj = mdagStore.get(pubKeyHash)
 
-  console.log('sig', sigHash, sigObj, sigObjExpanded)
-  console.log('rec', recHash, recObj)
+  // console.log('sig', sigHash, sigObj, sigObjExpanded)
+  // console.log('rec', recHash, recObj)
+  // console.log('pubKey', pubKeyHash, pubKeyObj)
+  // console.log('signature bytes', sigObj.bytes)
+
+  var recObjEncodedHash = crypto.createHash('sha256').update(ipld.marshal(recObj)).digest()
+
+  var isValid = ecdsa.verify(recObjEncodedHash, sigObj.bytes, pubKeyObj.bytes)
+  if (!isValid) {
+    return false
+  }
 
   return true
-
 }
 
 function validatorType1 (record) {
