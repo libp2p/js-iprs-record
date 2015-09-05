@@ -8,12 +8,6 @@ exports = module.exports
 // it assumes that the Record Obj and the PubKey Obj are already present in the
 // MerkleDAG Obj Store
 exports.validator = function (sigHash, mdagStore) {
-  // 1. validate the signature
-  //  1.1 get the record obj
-  //  1.2 encode it
-  //  1.3 verify signature match
-  // 2. identify the type of record
-  // 3. call the function accordingly
 
   var sigObj = mdagStore.get(sigHash)
   var sigObjExpanded = ipld.expand(sigObj)
@@ -22,11 +16,6 @@ exports.validator = function (sigHash, mdagStore) {
   var pubKeyHash = sigObjExpanded.pubKey[ipld.type.mlink]
   var pubKeyObj = mdagStore.get(pubKeyHash)
 
-  // console.log('sig', sigHash, sigObj, sigObjExpanded)
-  // console.log('rec', recHash, recObj)
-  // console.log('pubKey', pubKeyHash, pubKeyObj)
-  // console.log('signature bytes', sigObj.bytes)
-
   var recObjEncodedHash = crypto.createHash('sha256').update(ipld.marshal(recObj)).digest()
 
   var isValid = ecdsa.verify(recObjEncodedHash, sigObj.bytes, pubKeyObj.bytes)
@@ -34,20 +23,49 @@ exports.validator = function (sigHash, mdagStore) {
     return false
   }
 
+  var recObjExpanded = ipld.expand(recObj)
+  switch (recObjExpanded.scheme[ipld.type.mlink]) {
+    case 'type-a':
+      return validatorTypeA(recObjExpanded)
+    case 'type-b':
+      return validatorTypeB(recObjExpanded)
+    case 'type-c':
+      return validatorTypeC(recObjExpanded)
+    case 'type-d':
+      return validatorTypeD(recObjExpanded)
+    default:
+      return false
+  }
+}
+
+function validatorTypeA (record) {
+  var current = new Date()
+
+  // Yeah in JS you can compare dates like Integers
+  if (current < new Date(record.expires)) {
+    return true
+  } else {
+    return false
+  }
+
   return true
 }
 
-function validatorType1 (record) {
+function validatorTypeB (record) {
+  console.log('Type B is not implemented yet')
+  return false
 }
 
-function validatorType2 (record) {
+function validatorTypeC (record) {
+  console.log('Type C is not implemented yet')
+  return false
 }
 
-function validatorType3 (record) {
-}
-
-function validatorType4 (record) {
+function validatorTypeD (record) {
+  console.log('Type D is not implemented yet')
+  return false
 }
 
 exports.order = function (recA, recB) {
+
 }
