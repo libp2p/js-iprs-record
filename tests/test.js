@@ -81,10 +81,10 @@ test('create a valid and non expired type \'a\' record', function (done) {
   }
 
   var mdagObj_record_signature_encoded = ipld.marshal(mdagObj_record_signature)
-  var mdagObj_record_signature_encoded_hash = multihashing(mdagObj_record_signature_encoded, 'sha2-256')
+  var mdagObj_record_signature_encoded_mh = multihashing(mdagObj_record_signature_encoded, 'sha2-256')
 
-  mdagStore.put(mdagObj_record_signature, mdagObj_record_signature_encoded_hash)
-  sigHash = mdagObj_record_signature_encoded_hash
+  mdagStore.put(mdagObj_record_signature, mdagObj_record_signature_encoded_mh)
+  sigHash = mdagObj_record_signature_encoded_mh
 
   done()
 })
