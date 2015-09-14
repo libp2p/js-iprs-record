@@ -1,6 +1,6 @@
 {
   "name": "ipfs-record",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node.js IPFS Record implementation",
   "main": "src/index.js",
   "scripts": {
@@ -13,7 +13,9 @@
   "keywords": [
     "IPFS"
   ],
-  "engines" : { "node" : "^4.0.0" },
+  "engines": {
+    "node": "^4.0.0"
+  },
   "pre-commit": [],
   "author": "David Dias <daviddias@ipfs.io>",
   "license": "MIT",
