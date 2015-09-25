@@ -1,14 +1,14 @@
 {
-  "name": "ipfs-record",
+  "name": "libp2p-record",
   "version": "0.0.1",
-  "description": "Node.js IPFS Record implementation",
+  "description": "IPRS Record implementation",
   "main": "src/index.js",
   "scripts": {
     "test": "./node_modules/.bin/lab tests/*test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/diasdavid/node-ipfs-record.git"
+    "url": "https://github.com/diasdavid/node-libp2p-record.git"
   },
   "keywords": [
     "IPFS"
@@ -17,9 +17,9 @@
   "author": "David Dias <daviddias@ipfs.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/diasdavid/node-ipfs-record/issues"
+    "url": "https://github.com/diasdavid/node-libp2p-record/issues"
   },
-  "homepage": "https://github.com/diasdavid/node-ipfs-record",
+  "homepage": "https://github.com/diasdavid/node-libp2p-record",
   "devDependencies": {
     "code": "^1.5.0",
     "lab": "^5.15.2",
