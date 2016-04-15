@@ -1,3 +1,5 @@
+'use strict'
+
 var ipld = require('ipld')
 var ecdsa = require('ecdsa')
 var crypto = require('crypto')
@@ -8,7 +10,6 @@ exports = module.exports
 // it assumes that the Record Obj and the PubKey Obj are already present in the
 // MerkleDAG Obj Store
 exports.validator = function (sigHash, mdagStore) {
-
   var sigObj = mdagStore.get(sigHash)
   var sigObjExpanded = ipld.expand(sigObj)
   var recHash = sigObjExpanded.signee[ipld.type.mlink]
@@ -44,11 +45,9 @@ function validatorTypeA (record) {
   // Yeah in JS you can compare dates like Integers
   if (current < new Date(record.expires)) {
     return true
-  } else {
-    return false
   }
 
-  return true
+  return false
 }
 
 function validatorTypeB (record) {
