@@ -37,7 +37,7 @@
     "aegir": "^9.2.1",
     "chai": "^3.5.0",
     "merkledag-store": "^0.1.0",
-    "pre-commit": "^1.2.0"
+    "pre-commit": "^1.2.1"
   },
   "dependencies": {
     "multihashing": "^0.1.3",
