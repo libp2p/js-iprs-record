@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/diasdavid/js-libp2p-record",
   "devDependencies": {
-    "aegir": "^9.2.1",
+    "aegir": "^9.2.2",
     "chai": "^3.5.0",
     "merkledag-store": "^0.1.0",
     "pre-commit": "^1.2.2"
