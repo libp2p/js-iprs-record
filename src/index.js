@@ -2,5 +2,6 @@
 
 module.exports = {
   record: require('./record'),
-  validator: require('./validator')
+  validator: require('./validator'),
+  selection: require('./selection')
 }
