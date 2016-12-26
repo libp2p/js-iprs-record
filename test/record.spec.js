@@ -5,28 +5,34 @@ const expect = require('chai').expect
 const crypto = require('libp2p-crypto')
 const waterfall = require('async/waterfall')
 
-const iprs = require('../src')
+const libp2pRecord = require('../src')
+const record = libp2pRecord.record
 
 const fixture = require('./fixtures/go-record.js')
 
 describe('record', () => {
   let key
-  let record
+  let otherKey
+  let rec
 
   before((done) => {
     waterfall([
       (cb) => crypto.generateKeyPair('rsa', 1024, cb),
       (pair, cb) => {
+        otherKey = pair
+        crypto.generateKeyPair('rsa', 1024, cb)
+      },
+      (pair, cb) => {
         key = pair
-        iprs.record.create(
+        record.create(
           key,
           'hello',
           new Buffer('world'),
           cb
         )
       },
-      (rec, cb) => {
-        record = rec
+      (_rec, cb) => {
+        rec = _rec
         cb()
       }
     ], done)
@@ -35,27 +41,27 @@ describe('record', () => {
   it('create', () => {
     // Record was created in the before block
 
-    const dec = iprs.record.decode(record)
+    const dec = record.decode(rec)
     expect(dec).to.have.property('key', 'hello')
     expect(dec).to.have.property('value').eql(new Buffer('world'))
     expect(dec).to.have.property('author')
   })
 
   it('createSigned', (done) => {
-    iprs.record.createSigned(
+    record.createSigned(
       key,
       'hello2',
       new Buffer('world2'),
       (err, enc) => {
         expect(err).to.not.exist
 
-        const dec = iprs.record.decode(enc)
+        const dec = record.decode(enc)
 
         expect(dec).to.have.property('key', 'hello2')
         expect(dec).to.have.property('value').eql(new Buffer('world2'))
         expect(dec).to.have.property('author')
 
-        const blob = iprs.record.blobForSignature(dec.key, dec.value, dec.author)
+        const blob = record.blobForSignature(dec.key, dec.value, dec.author)
 
         key.sign(blob, (err, signature) => {
           expect(err).to.not.exist
@@ -67,6 +73,35 @@ describe('record', () => {
     )
   })
 
+  describe('verifySignature', () => {
+    it('valid', (done) => {
+      record.createSigned(
+        key,
+        'hello',
+        new Buffer('world'),
+        (err, enc) => {
+          expect(err).to.not.exist
+
+          record.verifySignature(enc, key.public, done)
+        })
+    })
+
+    it('invalid', (done) => {
+      record.createSigned(
+        key,
+        'hello',
+        new Buffer('world'),
+        (err, enc) => {
+          expect(err).to.not.exist
+
+          record.verifySignature(enc, otherKey.public, (err) => {
+            expect(err).to.match(/Invalid record signature/)
+            done()
+          })
+        })
+    })
+  })
+
   describe('go interop', () => {
     it('no signature', () => {
       expect(record.key).to.be.eql(fixture.encoded.key)
@@ -74,7 +109,7 @@ describe('record', () => {
     })
 
     it('with signature', () => {
-      const dec = iprs.record.decode(fixture.encodedSigned)
+      const dec = record.decode(fixture.encodedSigned)
       expect(dec).to.have.property('key', 'hello')
       expect(dec).to.have.property('value').eql(new Buffer('world'))
       expect(dec).to.have.property('author')

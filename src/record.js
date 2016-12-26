@@ -103,8 +103,35 @@ const decode = (proto) => {
   return Record.decode(proto)
 }
 
+/**
+ * Verify the signature of a record against the given public key.
+ *
+ * @param {Buffer} record
+ * @param {PublicKey} pubKey
+ * @param {function(Error)} callback
+ * @returns {undefined}
+ */
+const verifySignature = (record, pubKey, callback) => {
+  const dec = decode(record)
+
+  const blob = blobForSignature(dec.key, dec.value, dec.author)
+
+  pubKey.verify(blob, dec.signature, (err, good) => {
+    if (err) {
+      return callback(err)
+    }
+
+    if (!good) {
+      return callback(new Error('Invalid record signature'))
+    }
+
+    callback()
+  })
+}
+
 module.exports = {
   blobForSignature: blobForSignature,
+  verifySignature: verifySignature,
   create: create,
   createSigned: createSigned,
   decode: decode

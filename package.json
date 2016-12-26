@@ -45,6 +45,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "multihashes": "^0.3.1",
+    "multihashing-async": "^0.3.0",
     "protocol-buffers": "^3.2.1",
     "safe-buffer": "^5.0.1"
   }
