@@ -1,38 +1,28 @@
-libp2p-record JavaScript implementation
-=======================================
+# libp2p-record JavaScript implementation
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io) [[![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs) ![Build Status](https://travis-ci.org/libp2p/js-libp2p-record.svg?style=flat-square)](https://travis-ci.org/libp2p/js-libp2p-record) ![](https://img.shields.io/badge/coverage-%3F-yellow.svg?style=flat-square) [![Dependency Status](https://david-dm.org/libp2p/js-libp2p-record.svg?style=flat-square)](https://david-dm.org/libp2p/js-libp2p-record) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
+[![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](http://ipfs.io/)
+[![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
+[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![Coverage Status](https://coveralls.io/repos/github/libp2p/js-libp2p-record/badge.svg?branch=master)](https://coveralls.io/github/libp2p/js-libp2p-record?branch=master)
+[![Travis CI](https://travis-ci.org/libp2p/js-libp2p-record.svg?branch=master)](https://travis-ci.org/libp2p/js-libp2p-record)
+[![Circle CI](https://circleci.com/gh/libp2p/js-libp2p-record.svg?style=svg)](https://circleci.com/gh/libp2p/js-libp2p-record)
+[![Dependency Status](https://david-dm.org/libp2p/js-libp2p-record.svg?style=flat-square)](https://david-dm.org/libp2p/js-libp2p-record) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
+![](https://img.shields.io/badge/npm-%3E%3D3.0.0-orange.svg?style=flat-square)
+![](https://img.shields.io/badge/Node.js-%3E%3D4.0.0-orange.svg?style=flat-square)
 
-> JavaScript libp2p record object follows specification([IPRS](https://github.com/ipfs/specs/blob/master/records/README.md)) implementation
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/js-libp2p-record.svg)](https://saucelabs.com/u/js-libp2p-record)
 
-# Description
+> JavaScript implementation of libp2p record.
 
-# Usage
+## Description
 
-## Example record
+Implementation of [go-libp2p-record](https://github.com/libp2p/go-libp2p-record) in JavaScript.
 
-```
-// Record is a IPLD object
-{
-  '@context': {
-    mlink: 'http://merkle-link'
-  },
-  scheme: {
-    mlink: <hash to validity scheme or identifier for hard coded validity scheme>
-  },
-  expires: <data>, // datetime at which record expires
-  value: <data>, // the data that this Record Stores
-}
-```
+## Usage
 
+See https://libp2p.github.io/js-libp2p-record/
 
-# Record types
+## License
 
-A record type should be identified by its validity scheme and a record validity scheme should be a MerkleDAG object containing its validity checking rules, however, for simplicity, we have developed 4 types of records, in which their validity schemes are hardcoded in this module. To identify which validity scheme to use, we use a enum:
-
-- a - signed, valid within a datetime range
-- b - signed, expiring after a Time-To-Live
-- c - signed, based on ancestry (chain)
-- d - signed, with cryptographic freshness
-
-Reference: https://github.com/ipfs/specs/tree/master/records#example-record-types
+MIT
