@@ -8,15 +8,27 @@ const each = require('async/each')
 const parallel = require('async/parallel')
 const crypto = require('libp2p-crypto')
 const mh = require('multihashes')
+const PeerId = require('peer-id')
 
 const libp2pRecord = require('../src')
 const validator = libp2pRecord.validator
-const record = libp2pRecord.record
+const Record = libp2pRecord.Record
 
 const fixture = require('./fixtures/go-key-records.js')
 
 const makeRecord = (key, k, callback) => {
-  record.create(key, k, crypto.randomBytes(10), callback)
+  PeerId.createFromPrivKey(key.bytes, (err, id) => {
+    if (err) {
+      return callback(err)
+    }
+    let rec
+    try {
+      rec = new Record(k, crypto.randomBytes(10), id)
+    } catch (err) {
+      return callback(err)
+    }
+    callback(null, rec)
+  })
 }
 
 const generateCases = (hash) => {
@@ -62,21 +74,19 @@ describe('validator', () => {
   describe('verifyRecord', () => {
     it('calls matching validator', (done) => {
       const k = '/hello/you'
-      record.create(key, k, new Buffer('world'), (err, rec) => {
-        expect(err).to.not.exist
+      const rec = new Record(k, new Buffer('world'), new PeerId(hash))
 
-        const validators = {
-          hello: {
-            func (key, value, cb) {
-              expect(key).to.be.eql(k)
-              expect(value).to.be.eql(new Buffer('world'))
-              cb()
-            },
-            sign: false
-          }
+      const validators = {
+        hello: {
+          func (key, value, cb) {
+            expect(key).to.be.eql(k)
+            expect(value).to.be.eql(new Buffer('world'))
+            cb()
+          },
+          sign: false
         }
-        validator.verifyRecord(validators, rec, done)
-      })
+      }
+      validator.verifyRecord(validators, rec.encode(), done)
     })
   })
 
@@ -87,7 +97,7 @@ describe('validator', () => {
         const validators = {}
 
         expect(
-          validator.isSigned(validators, rec)
+          validator.isSigned(validators, rec.encode())
         ).to.be.eql(
           false
         )
@@ -101,7 +111,7 @@ describe('validator', () => {
         const validators = {}
 
         expect(
-          () => validator.isSigned(validators, rec)
+          () => validator.isSigned(validators, rec.encode())
         ).to.throw(
           /Invalid record keytype/
         )
@@ -123,13 +133,13 @@ describe('validator', () => {
         expect(err).to.not.exist
 
         expect(
-          validator.isSigned(validators, recs[0])
+          validator.isSigned(validators, recs[0].encode())
         ).to.be.eql(
           true
         )
 
         expect(
-          validator.isSigned(validators, recs[1])
+          validator.isSigned(validators, recs[1].encode())
         ).to.be.eql(
           false
         )

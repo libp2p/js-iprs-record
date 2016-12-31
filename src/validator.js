@@ -1,6 +1,6 @@
 'use strict'
 
-const decode = require('./record').decode
+const Record = require('./record')
 
 /**
  * Checks a record and ensures it is still valid.
@@ -12,7 +12,7 @@ const decode = require('./record').decode
  * @returns {undefined}
  */
 const verifyRecord = (validators, record, callback) => {
-  const dec = decode(record)
+  const dec = Record.decode(record)
   const key = dec.key
   const parts = key.split('/')
 
@@ -38,7 +38,7 @@ const verifyRecord = (validators, record, callback) => {
  * @returns {boolean}
  */
 const isSigned = (validators, record) => {
-  const dec = decode(record)
+  const dec = Record.decode(record)
   const key = dec.key
   const parts = key.split('/')
 
