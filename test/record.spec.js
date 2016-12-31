@@ -12,6 +12,8 @@ const Record = libp2pRecord.Record
 
 const fixture = require('./fixtures/go-record.js')
 
+const date = new Date(Date.UTC(2012, 1, 25, 10, 10, 10, 10))
+
 describe('record', () => {
   let key
   let otherKey
@@ -50,17 +52,18 @@ describe('record', () => {
   })
 
   it('encode & decode', () => {
-    const rec = new Record('hello', new Buffer('world'), id)
+    const rec = new Record('hello', new Buffer('world'), id, date)
     const dec = Record.decode(rec.encode())
 
     expect(dec).to.have.property('key', 'hello')
     expect(dec).to.have.property('value').eql(new Buffer('world'))
     expect(dec).to.have.property('author')
     expect(dec.author.id.equals(id.id)).to.be.eql(true)
+    expect(dec.timeReceived).to.be.eql(date)
   })
 
   it('encodeSigned', (done) => {
-    const rec = new Record('hello2', new Buffer('world2'), id)
+    const rec = new Record('hello2', new Buffer('world2'), id, date)
     rec.encodeSigned(key, (err, enc) => {
       expect(err).to.not.exist
 
@@ -69,6 +72,7 @@ describe('record', () => {
       expect(dec).to.have.property('value').eql(new Buffer('world2'))
       expect(dec).to.have.property('author')
       expect(dec.author.id.equals(id.id)).to.be.eql(true)
+      expect(dec.timeReceived).to.be.eql(date)
 
       const blob = rec.blobForSignature()
 

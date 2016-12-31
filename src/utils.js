@@ -17,8 +17,9 @@ module.exports.toRFC3339 = (time) => {
   const minute = leftPad(time.getUTCMinutes(), 2, '0')
   const seconds = leftPad(time.getUTCSeconds(), 2, '0')
   const milliseconds = time.getUTCMilliseconds()
+  const nanoseconds = milliseconds * 1000 * 1000
 
-  return `${year}-${month}-${day}T${hour}:${minute}:${seconds}.${milliseconds}000000Z`
+  return `${year}-${month}-${day}T${hour}:${minute}:${seconds}.${nanoseconds}Z`
 }
 
 /**
@@ -35,9 +36,9 @@ module.exports.parseRFC3339 = (time) => {
     // 15:04:05
     '(\\d{2}):(\\d{2}):(\\d{2})' +
     // .999999999Z
-    '\\.(\\d{9})Z'
+    '\\.(\\d+)Z'
   )
-  const m = time.match(rfc3339Matcher)
+  const m = String(time).trim().match(rfc3339Matcher)
 
   if (!m) {
     throw new Error('Invalid format')
@@ -49,7 +50,7 @@ module.exports.parseRFC3339 = (time) => {
   const hour = parseInt(m[4], 10)
   const minute = parseInt(m[5], 10)
   const second = parseInt(m[6], 10)
-  const millisecond = parseInt(m[7].slice(0, 3), 10)
+  const millisecond = parseInt(m[7].slice(0, -6), 10)
 
   return new Date(Date.UTC(year, month, date, hour, minute, second, millisecond))
 }
