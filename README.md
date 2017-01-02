@@ -7,7 +7,7 @@ iprs-record JavaScript implementation
 [![Dependency Status](https://david-dm.org/diasdavid/js-iprs-record.svg?style=flat-square)](https://david-dm.org/diasdavid/js-iprs-record)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
 
-> JavaScript IPRS Record implementations follows specification([IPRS](https://github.com/ipfs/specs/blob/master/records/README.md)) implementation
+> JavaScript IPRS Record implementations follows specification([IPRS](https://github.com/ipfs/specs/tree/master/iprs-interplanetary-record-system/README.md)) implementation
 
 **Disclaimer:** This module is way out of date there will be 🐉🐉
  
