@@ -7,7 +7,7 @@ iprs-record JavaScript implementation
 [![Dependency Status](https://david-dm.org/diasdavid/js-iprs-record.svg?style=flat-square)](https://david-dm.org/diasdavid/js-iprs-record)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
 
-> JavaScript IPRS Record implementations follows specification([IPRS](https://github.com/ipfs/specs/tree/master/iprs-interplanetary-record-system/README.md)) implementation
+> JavaScript IPRS Record implementations follows specification([IPRS](https://github.com/ipfs/specs/tree/master/iprs/README.md)) implementation
 
 **Disclaimer:** This module is way out of date there will be 🐉🐉
  
@@ -41,4 +41,4 @@ A record type should be identified by its validity scheme and a record validity 
 - c - signed, based on ancestry (chain)
 - d - signed, with cryptographic freshness
 
-Reference: https://github.com/ipfs/specs/tree/master/iprs-interplanetary-record-system/README.md#example-record-types
+Reference: https://github.com/ipfs/specs/tree/master/iprs/README.md#example-record-types
